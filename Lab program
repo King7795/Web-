@@ -1,0 +1,194 @@
+1. a. Develop a program to read the student details like Name, USN, and Marks in three subjects. 
+Display the student details, total marks and percentage with suitable messages.
+
+name=input('enter the name of students')
+USN=input('enter the USN of the student')
+mark1 =int(input('enter marks of 1st subjects:'))
+mark2 =int(input('enter marks of 2nd subject:'))
+mark3=int(input('enter marks of 3rd subject:'))
+total_marks=mark1+mark2+mark3
+percentage=(total_marks*100)/300
+print('Student details')
+print('Name of the student',name)
+print('USN of the student',USN)
+print('marks of 1st subject',mark1)
+print('marks of 2nd subject',mark2)
+print('mark of 3rd subject',mark3)
+print('total marks',total_marks)
+print('percentage',percentage)
+
+b. Develop a program to read the name and year of birth of a person. Display whether the person 
+is a senior citizen or not. 
+
+from datetime import date
+pername=input("enter the name of a person:")
+DOY=int(input("enter the birthyear of a person:"))
+curyear=date.today().year
+perage=curyear-DOY
+if(perage>60):
+    print(pername,'aged',perage,"years is a senior citizen")
+else:
+    print(pername,'aged',perage,"years is a not senior citizen")
+
+2. a. Develop a program to generate Fibonacci sequence of length (N). Read N from the console. 
+
+n=int(input("how many fib series to be generated?"))
+num1=0
+num2=1
+next_number=num2
+count=1
+while count<=n:
+    print(next_number,end=" ")
+    count+=1
+    num1,num2=num2,next_number
+    next_number=num1+num2
+    print()   
+
+b. Write a function to calculate factorial of a number. Develop a program to compute binomial 
+coefficient (Given N and R). 
+
+def fact (n):
+    if n==0:
+        return 1
+    else:
+        return n*fact (n-1)
+N= int (input ("Enter the value of N: "))
+R= int(input ("Enter the value of R: ")) 
+ncr = fact (N) / (fact (R)* fact (N-R))
+print("the binomial coefficient of ncr",ncr)
+
+3. Read N numbers from the console and create a list. Develop a program to print mean, variance 
+and standard deviation with suitable messages. 
+
+from math import sqrt
+mylist=[ ]
+n=int(input("enter the number:"))
+print("enter the elements")
+for i in range(n):
+    num=int(input())
+    mylist.append(num)
+print("the elements in list:")
+print(mylist)
+len(mylist)
+sum=0
+for x in mylist:
+    sum+=x
+mean=sum/n
+total=0
+for x in mylist:
+    total=total+(x-mean)*(x-mean)
+v=total/num
+sd=sqrt(v)
+print('the mean is ',mean)
+print('the varience is',v)
+print('the standard deviation is ',sd)
+
+4. Read a multi-digit number (as chars) from the console. Develop a program to print the frequency 
+of each digit with suitable message. 
+
+multi_digit_num=input("enter a multi digit number:")
+freq_digit={}
+for char in multi_digit_num:
+    if char.isdigit():
+        freq_digit.setdefault(char,0)
+        freq_digit[char]+=1
+print("frequency of each digit is:")
+for digit,freq  in freq_digit.items():
+    print(f"frequency of {digit}:{freq}")
+
+5. Develop a program to print 10 most frequently appearing words in a text file. [Hint: Use 
+dictionary with distinct words and their frequency of occurrences. Sort the dictionary in the 
+reverse order of frequency and display dictionary slice of first 10 items] 
+
+import sys
+import string
+import os.path
+fname=input("enter the file name")
+if not os.path.isfile(fname):
+    print("the file",fname,"does not exist")
+    sys.exit(0) 
+fh=open(fname,'r')
+content=" "
+for line in fh:
+    for ch in line:
+        if ch not in string.punctuation:
+            content=content+ch
+        else:
+            content=content+' '
+wordfreq={ }
+wordlist=content.split()
+for word in wordlist:
+    if word not in wordfreq.keys():
+        wordfreq[word]=1
+    else:
+        wordfreq[word]+=1
+sortedwordfreq=sorted(wordfreq.items(),key=lambda x:x[1],reverse=True)
+for i in range(10):
+    print(sortedwordfreq[i][0],"occurs",sortedwordfreq[i][1],"times")
+
+6. Develop a program to sort the contents of a text file and write the sorted contents into a separate 
+text file. [Hint: Use string methods strip(), len(), list methods sort(), append(), and file methods 
+open(), readlines(), and write()]. 
+
+import sys
+import string
+import os.path
+fname=input("enter the file name")
+if not os.path.isfile(fname):
+    print("the file",fname,"doesnot exits")
+    sys.exit(0)
+fh=open(fname,"r")
+mylist=fh.readlines()
+linelist=[ ]
+for line in mylist:
+    linelist.append(line.strip())
+    outfile=open("sorted.txt","w")
+for line in linelist :
+    outfile.write(line+"\n")
+fh.close()
+outfile.close()
+if os.path.isfile("sorted.txt"):
+    print("sorted.txt+contains",len(linelist),"lines")
+rdfile=open("sorted.txt","r")
+for line in rdfile:
+    print(line,end=" ")
+
+7. Develop a program to backing Up a given Folder (Folder in a current working directory) into a 
+ZIP File by using relevant modules and suitable methods. 
+
+import os 
+import sys
+import pathlib
+import zipfile
+dirname=input("enter directory name that you want to backup:")
+if not os.path.isdir(dirname):
+    print('directory',dirname,"doesnot exist")
+    sys.exit(0)
+curdirectory=pathlib.Path(dirname)
+with zipfile.ZipFile("myzip.zip",mode="w") as archive:
+    for file_path in curdirectory.rglob("*"):
+        archive.write(file_path,arcname=file_path.relative_to (curdirectory))
+if os.path.isfile("myzip.zip"):
+    print("archieve","myzip.zip","created successfully")
+else:
+    print("Error in creating zip archive")
+
+8. Write a function named DivExp which takes TWO parameters a, b and returns a value c (c=a/b). 
+Write suitable assertion for a>0 in function DivExp and raise an exception for when b=0. 
+Develop a suitable program which reads two values from the console and calls a function 
+DivExp. 
+
+import sys
+def DivExp(a,b):
+    assert a>0,"a should be greater than 0"
+    try:
+        c=a/b
+    except ZeroDivisionError:
+        print("value of b cannot be zero")
+        sys.exit(0)
+    else:
+        return c
+val1=int(input("Enter a value for a:"))    
+val2=int(input("enter a value for b :"))
+val3=DivExp(val1,val2)
+print(val1,"/",val2,"=",val3) 
